@@ -58,8 +58,10 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
             int isInPlace = 0;
             if(i > 0){
-                isInPlace = compare(items.valueAt(i-1), item); //will call this in for loop, compare with previous item in loop
+                isInPlace = compare(items.get(i-1), item); //will call this in for loop, compare with previous item in loop
             }
+            Log.d("OcrDetectorProcessor", "isInPlace value is " + isInPlace);
+
 
             if (item != null && item.getValue() != null) {
                 Log.d("OcrDetectorProcessor", "Text detected! " + item.getValue());
@@ -68,10 +70,13 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
             if(isInPlace < 0) {
                 graphic.makeRed();
+            } else if (isInPlace > 0){
+                graphic.setColor(Color.GREEN);
             } else{
                 graphic.setColor(Color.WHITE);
             }
             mGraphicOverlay.add(graphic);
+            isInPlace = 0;
         }
 
     }
@@ -85,7 +90,7 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
         }
 
         //list of lines for t2
-        List<Line> lines2 = (List<Line>) t1.getComponents();
+        List<Line> lines2 = (List<Line>) t2.getComponents();
         for(Line elements : lines2){
             Log.i("current lines ", ": " + elements.getValue());
         }
@@ -100,10 +105,12 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
             Line L2 = lines2.get(i);
             String s1 = L1.getValue();
             String s2 = L2.getValue();
+            Log.d("OcrDetectorProcessor", "s1: " + s1 + ". s2: " + s2);
+
             int compare = s2.compareToIgnoreCase(s1);
+
             if(compare > 0) return 1;
             if(compare < 0) return -1;
-            if(compare == 0) return 0;
         }
 
         return 0;
