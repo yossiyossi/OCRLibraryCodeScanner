@@ -22,6 +22,7 @@ import android.util.SparseArray;
 import com.google.android.gms.samples.vision.ocrreader.ui.camera.GraphicOverlay;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.text.Line;
+import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
 
 import java.util.ArrayList;
@@ -53,19 +54,27 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
     public void receiveDetections(Detector.Detections<TextBlock> detections) {
         mGraphicOverlay.clear();
         SparseArray<TextBlock> items = detections.getDetectedItems();
+        ArrayList<TextBlock> callNums = new ArrayList<>();
+
         for (int i = 0; i < items.size(); ++i) {
             TextBlock item = items.valueAt(i);
-
-            int isInPlace = 0;
-            if(i > 0){
-                isInPlace = compare(items.get(i-1), item); //will call this in for loop, compare with previous item in loop
-            }
-            Log.d("OcrDetectorProcessor", "isInPlace value is " + isInPlace);
-
-
+            //clear out non call numbers
             if (item != null && item.getValue() != null) {
                 Log.d("OcrDetectorProcessor", "Text detected! " + item.getValue());
+                if(isValidCallNumber(item)){
+                    callNums.add(item);
+                }
             }
+
+        }
+
+        for(int i = 0; i < callNums.size(); i++){
+            TextBlock item = callNums.get(i);
+            int isInPlace = 0;
+            if(i > 0){
+                isInPlace = compare(callNums.get(i-1), callNums.get(i)); //will call this in for loop, compare with previous item in loop
+            }
+
             OcrGraphic graphic = new OcrGraphic(mGraphicOverlay, item);
 
             if(isInPlace < 0) {
@@ -80,6 +89,120 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
         }
 
     }
+
+    public boolean isValidCallNumber(TextBlock b) {
+        List<? extends Text> lines = b.getComponents();
+
+        if (lines.size() > 6 || lines.size() < 2) {
+            return false;
+        }
+
+        if (isLetters(lines.get(0).getValue())) {
+            lines.remove(0);
+            // Log.d("Letters", "Letters Detected, Deleted index 0, New index: " + lines.get(0).getValue());
+        }
+
+        int i = 0;
+        while (lines != null & lines.get(i) != null & i < lines.size() - 1) {
+
+            if (isNums(lines.get(0).getValue())) {
+                i++;
+                //Log.d("Numbers", "Numbers Detected, Incremented i");
+            } else {
+                //Log.d("False", "First If else statement false");
+                return false;
+
+            }
+
+            if (isLetterNumberCombo(lines.get(i).getValue())) {
+                i++;
+                //Log.d("Letters and numbers", "Letters and numbersDetected, Incremented i");
+            } else if (isDate(lines.get(i).getValue())) {  //Needs to be edited for vol. after date
+                return true;
+            } else {
+                //  Log.d("False2", "Second if else false");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isVol(String S) {
+        if (S.charAt(0) == 'v' || S.charAt(0) == 'V') { return true; }
+        else { return false; }
+    }
+
+    /**
+     *
+     * @param lines
+     * @return true if detection is only one line, false otherwise
+     */
+    public boolean isOneLine(List<? extends Text> lines) {
+        if (lines.size() < 2) { return true; }
+        else { return false; }
+    }
+
+    /**
+     *
+     * @param S
+     * @return returns true of it is in the format of a date, could be improved by filtering for only certain dates
+     * ie) 1800 to 2100
+     */
+    public boolean isDate(String S) {
+        if(!isNums(S)) { return false; }
+        else if(S.length() != 4) { return false; }
+        else { return true; }
+    }
+
+    /**
+     *
+     * @param S
+     * @return true if given S consists of only letters
+     */
+    public boolean isLetters(String S) {
+        for (int i = 0; i < S.length(); i++) {
+            if (!Character.isLetter(S.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @param S
+     * @return true if S consists of only numbers
+     */
+    public boolean isNums(String S) {
+        for (int i = 0; i < S.length(); i++) {
+            if (!Character.isDigit(S.charAt(i)) & S.charAt(i) != '.') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @param S
+     * @return return true if S consists of letters and numbers
+     */
+    public boolean isLetterNumberCombo(String S) {
+        Boolean letter = false;
+        Boolean number = false;
+
+        for (int i = 0; i < S.length(); i++) {
+            if (Character.isDigit(S.charAt(i))) {
+                number = true;
+            }
+            else if (Character.isLetter(S.charAt(i))) {
+                letter = true;
+            }
+        }
+        if (letter == true & number == true) { return true; }
+        else { return false; }
+    }
+
 
     //returns 1 if t2 > t1
     public static int compare(TextBlock t1, TextBlock t2){
