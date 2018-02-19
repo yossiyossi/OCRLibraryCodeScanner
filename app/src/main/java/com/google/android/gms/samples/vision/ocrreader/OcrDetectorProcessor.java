@@ -1,4 +1,4 @@
-/*
+/* Graham Foster
  * Copyright (C) The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,22 +18,25 @@ package com.google.android.gms.samples.vision.ocrreader;
 import android.graphics.Color;
 import android.util.Log;
 import android.util.SparseArray;
-
 import com.google.android.gms.samples.vision.ocrreader.ui.camera.GraphicOverlay;
 import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.text.Element;
 import com.google.android.gms.vision.text.Line;
 import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import static android.graphics.Color.GREEN;
+import static android.graphics.Color.WHITE;
+import static android.hardware.camera2.params.RggbChannelVector.RED;
 import static java.lang.Math.min;
 
 /**
  * A very simple Processor which gets detected TextBlocks and adds them to the overlay
  * as OcrGraphics.
+ * TODO: Make this implement Detector.Processor<TextBlock> and add text to the GraphicOverlay
  */
 public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
@@ -42,54 +45,6 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
     OcrDetectorProcessor(GraphicOverlay<OcrGraphic> ocrGraphicOverlay) {
         mGraphicOverlay = ocrGraphicOverlay;
     }
-
-    /**
-     * Called by the detector to deliver detection results.
-     * If your application called for it, this could be a place to check for
-     * equivalent detections by tracking TextBlocks that are similar in location and content from
-     * previous frames, or reduce noise by eliminating TextBlocks that have not persisted through
-     * multiple detections.
-     */
-    @Override
-    public void receiveDetections(Detector.Detections<TextBlock> detections) {
-        mGraphicOverlay.clear();
-        SparseArray<TextBlock> items = detections.getDetectedItems();
-        ArrayList<TextBlock> callNums = new ArrayList<>();
-
-        for (int i = 0; i < items.size(); ++i) {
-            TextBlock item = items.valueAt(i);
-            //clear out non call numbers
-            if (item != null && item.getValue() != null) {
-                Log.d("OcrDetectorProcessor", "Text detected! " + item.getValue());
-                if(isValidCallNumber(item)){
-                    callNums.add(item);
-                }
-            }
-
-        }
-
-        for(int i = 0; i < callNums.size(); i++){
-            TextBlock item = callNums.get(i);
-            int isInPlace = 0;
-            if(i > 0){
-                isInPlace = compare(callNums.get(i-1), callNums.get(i)); //will call this in for loop, compare with previous item in loop
-            }
-
-            OcrGraphic graphic = new OcrGraphic(mGraphicOverlay, item);
-
-            if(isInPlace < 0) {
-                graphic.makeRed();
-            } else if (isInPlace > 0){
-                graphic.setColor(Color.GREEN);
-            } else{
-                graphic.setColor(Color.WHITE);
-            }
-            mGraphicOverlay.add(graphic);
-            isInPlace = 0;
-        }
-
-    }
-
     public boolean isValidCallNumber(TextBlock b) {
         List<? extends Text> lines = b.getComponents();
 
@@ -129,16 +84,6 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
     public boolean isVol(String S) {
         if (S.charAt(0) == 'v' || S.charAt(0) == 'V') { return true; }
-        else { return false; }
-    }
-
-    /**
-     *
-     * @param lines
-     * @return true if detection is only one line, false otherwise
-     */
-    public boolean isOneLine(List<? extends Text> lines) {
-        if (lines.size() < 2) { return true; }
         else { return false; }
     }
 
@@ -237,20 +182,106 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
         }
 
         return 0;
-        /*
-        Line l1 = lines1.get(0);
-        Log.i("current line l1 value ", ": " + l1.getValue());
-        Line l2 = lines2.get(0);
-        //ArrayList<CharSequence> charsl1 =   new ArrayList<CharSequence>((l1.getValue().toCharArray()));
-       // Log.i("line l1 character(0) ", ": " + charsl1.get(0));
-        List charsl2 = l2.getComponents();
-        */
+
+
+    }
+    public boolean psuedo_sort(TextBlock lhs, TextBlock rhs){
+        if (rhs != null && rhs.getValue() != null && lhs != null && lhs.getValue() != null) {
+            List<Line> llines = (List<Line>) lhs.getComponents();
+            List<Element> lelement = (List<Element>) llines.get(0).getComponents();
+            List<Line> rlines = (List<Line>) rhs.getComponents();
+            List<Element> relement = (List<Element>) rlines.get(0).getComponents();
+            // Log.d("Found: ", "first" + llines.get(0).getValue());
+            //Log.d("Found: ", "second" + rlines.get(0).getValue());
+
+            if (llines.get(0).getValue().compareToIgnoreCase(rlines.get(0).getValue()) > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public ArrayList<String> findOutOfOrder(SparseArray<TextBlock> items) {
+        //Log.d("Found", "compare");
+        ArrayList<String> out_of_order = new ArrayList<String>();
+        int compare_at = 0;
+        for (int i = 0; i < items.size(); i++) {
+            if (compare_at == i + 1){
+                return out_of_order;
+            }
+            TextBlock item1 = items.valueAt(compare_at);
+            TextBlock item2 = items.valueAt(i + 1);
+            // Log.d("debug:", item1.getValue() + "," + item2.getValue());
+            if (compare(item1, item2) == -1){
+                // Log.d("Found: ", "out of order");
+                out_of_order.add(item2.getValue());
+            }
+            else{
+                //  Log.d("Found: ", "not out of order");
+                compare_at = i + 1;
+            }
+
+        }
+        return out_of_order;
+    }
+
+    public ArrayList<TextBlock> addCallNums(SparseArray<TextBlock> items) {
+        ArrayList<TextBlock> callNums = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++) {
+            TextBlock item = items.valueAt(i);
+            if (item != null && item.getValue() != null) {
+                if (isValidCallNumber(item)) {
+                    callNums.add(item);
+                }
+            }
+        }
+        return callNums;
+    }
+
+    // TODO:  Once this implements Detector.Processor<TextBlock>, implement the abstract methods.
+
+    @Override
+    public void receiveDetections(Detector.Detections<TextBlock> detections) {
+        mGraphicOverlay.clear();
+        ArrayList<Integer> sequence = new ArrayList<Integer>();
+        SparseArray<TextBlock> items = detections.getDetectedItems();
+        //ArrayList<String> out_of_order = compare(items);
+        //for (int i = 0; i < out_of_order.size(); i++) {
+        //  Log.d("out of order: ", out_of_order.get(i));
+        //}
+        int compare_at = 0;
+        ArrayList<Integer> out_of_order = new ArrayList<Integer>();
+        ArrayList<TextBlock> callNums = addCallNums(items);
+
+        for (int i = 0; i < callNums.size(); i++) {
+
+            TextBlock item = callNums.get(compare_at);
+
+            TextBlock item2 = callNums.get(i + 1);
+            OcrGraphic graphic = new OcrGraphic(mGraphicOverlay, item);
+            OcrGraphic graphic1 = new OcrGraphic(mGraphicOverlay, item2);
+
+
+            Log.d("debug:", item.getValue() + "," + item2.getValue());
+            int compareValue = compare(item,item2);
+            if (compareValue == -1) {
+                Log.d("debug", "out of order adding " + item.getValue() + " " + compare_at);
+                sequence.add(compare_at);
+                graphic.makeRed();
+                mGraphicOverlay.add(graphic);
+            }
+            else if (compareValue == 1){
+                Log.d("debug", "not out of order");
+                graphic.setColor(Color.GREEN);
+                compare_at = i + 1;
+            }
+            else{
+                graphic.setColor(Color.WHITE);
+                //set compare_at here?
+            }
+        }
     }
 
 
-    /**
-     * Frees the resources associated with this detection processor.
-     */
     @Override
     public void release() {
         mGraphicOverlay.clear();
