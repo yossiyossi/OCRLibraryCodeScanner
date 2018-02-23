@@ -1,18 +1,18 @@
-/* Graham Foster
- * Copyright (C) The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+/*
+* Copyright (C) The Android Open Source Project
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package com.google.android.gms.samples.vision.ocrreader;
 
 import android.graphics.Color;
@@ -31,6 +31,7 @@ import java.util.List;
 import static android.graphics.Color.GREEN;
 import static android.graphics.Color.WHITE;
 import static android.hardware.camera2.params.RggbChannelVector.RED;
+import static java.lang.Float.parseFloat;
 import static java.lang.Math.min;
 
 /**
@@ -182,25 +183,63 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
         }
 
         return 0;
-
-
+       /*
+       Line l1 = lines1.get(0);
+       Log.i("current line l1 value ", ": " + l1.getValue());
+       Line l2 = lines2.get(0);
+       //ArrayList<CharSequence> charsl1 =   new ArrayList<CharSequence>((l1.getValue().toCharArray()));
+      // Log.i("line l1 character(0) ", ": " + charsl1.get(0));
+       List charsl2 = l2.getComponents();
+       */
     }
     public boolean psuedo_sort(TextBlock lhs, TextBlock rhs){
         if (rhs != null && rhs.getValue() != null && lhs != null && lhs.getValue() != null) {
             List<Line> llines = (List<Line>) lhs.getComponents();
-            List<Element> lelement = (List<Element>) llines.get(0).getComponents();
             List<Line> rlines = (List<Line>) rhs.getComponents();
-            List<Element> relement = (List<Element>) rlines.get(0).getComponents();
-            // Log.d("Found: ", "first" + llines.get(0).getValue());
-            //Log.d("Found: ", "second" + rlines.get(0).getValue());
+            Log.d("debug", "first" + llines.get(0).getValue());
+            Log.d("debug", "second" + rlines.get(0).getValue());
 
-            if (llines.get(0).getValue().compareToIgnoreCase(rlines.get(0).getValue()) > 0) {
-                return false;
+            int i = 0;
+            while(i < llines.size() && i < rlines.size()) {
+                //compare first line numerically
+                if (i == 0)
+                {
+                    Log.d("debug", "comparing first line" + llines.get(i).getValue() + " " + rlines.get(i).getValue());
+                    if (llines.get(i).getValue().compareToIgnoreCase(rlines.get(i).getValue()) > 0) {
+                        Log.d("debug", "left greater than right");
+                        return false;
+                    }
+                }
+                //compare the lines after the first by their letters and then their numbers as decimal ignore last line because it is a year number
+                if (i > 0 && i < llines.size() -1 )
+                {
+                    Log.d("debug", "comparing next line");
+                    String[] split_left = llines.get(i).getValue().split("(?<=\\D)(?=\\d)");
+                    String[] split_right = rlines.get(i).getValue().split("(?<=\\D)(?=\\d)");
+                    float right_numbers = parseFloat("." + split_right[1]);
+                    float left_numbers = parseFloat("." + split_left[1]);
+                    Log.d("debug", split_left[0] + "," + split_right[0] + "," + left_numbers + "," + right_numbers);
+                    if (split_left[0].compareToIgnoreCase(split_right[0]) > 0) {
+                        Log.d("debug", "comparing" + split_left[0] + split_right[0]);
+                        return false;
+                    }
+
+                    if (left_numbers > right_numbers) {
+                        Log.d("debug", "comparing" + left_numbers + right_numbers);
+                        return false;
+                    }
+                }
+
+                ++i;
             }
+
+           /*if (llines.get(0).getValue().compareToIgnoreCase(rlines.get(0).getValue()) > 0) {
+               return false;
+           }*/
         }
         return true;
     }
-    public ArrayList<String> findOutOfOrder(SparseArray<TextBlock> items) {
+    public ArrayList<String> compare(SparseArray<TextBlock> items) {
         //Log.d("Found", "compare");
         ArrayList<String> out_of_order = new ArrayList<String>();
         int compare_at = 0;
@@ -211,7 +250,7 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
             TextBlock item1 = items.valueAt(compare_at);
             TextBlock item2 = items.valueAt(i + 1);
             // Log.d("debug:", item1.getValue() + "," + item2.getValue());
-            if (compare(item1, item2) == -1){
+            if (psuedo_sort(item1, item2) == false){
                 // Log.d("Found: ", "out of order");
                 out_of_order.add(item2.getValue());
             }
@@ -219,6 +258,7 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
                 //  Log.d("Found: ", "not out of order");
                 compare_at = i + 1;
             }
+
 
         }
         return out_of_order;
@@ -248,9 +288,12 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
         //for (int i = 0; i < out_of_order.size(); i++) {
         //  Log.d("out of order: ", out_of_order.get(i));
         //}
+
         int compare_at = 0;
         ArrayList<Integer> out_of_order = new ArrayList<Integer>();
         ArrayList<TextBlock> callNums = addCallNums(items);
+
+
 
         for (int i = 0; i < callNums.size(); i++) {
 
@@ -262,23 +305,19 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
 
             Log.d("debug:", item.getValue() + "," + item2.getValue());
-            int compareValue = compare(item,item2);
-            if (compareValue == -1) {
+            if (psuedo_sort(item, item2) == false) {
                 Log.d("debug", "out of order adding " + item.getValue() + " " + compare_at);
                 sequence.add(compare_at);
-                graphic.makeRed();
-                mGraphicOverlay.add(graphic);
+                graphic1.makeRed();
+                mGraphicOverlay.add(graphic1);
             }
-            else if (compareValue == 1){
+            else {
                 Log.d("debug", "not out of order");
-                graphic.setColor(Color.GREEN);
+
                 compare_at = i + 1;
             }
-            else{
-                graphic.setColor(Color.WHITE);
-                //set compare_at here?
-            }
         }
+
     }
 
 
