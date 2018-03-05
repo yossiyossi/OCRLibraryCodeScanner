@@ -18,9 +18,10 @@
         android:debuggable="true"
         android:fullBackupContent="false"
         android:hardwareAccelerated="true"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/robot"
         android:label="OcrReaderApp"
         android:supportsRtl="true"
+        android:testOnly="true"
         android:theme="@style/Theme.AppCompat" >
         <meta-data
             android:name="com.google.android.gms.version"
@@ -30,13 +31,17 @@
             android:value="ocr" />
 
         <activity
-            android:name="com.google.android.gms.samples.vision.ocrreader.OcrCaptureActivity"
-            android:label="Read Text" >
+            android:name="com.google.android.gms.samples.vision.ocrreader.WelcomeActivity"
+            android:label="Check Yo&apos; Shelf" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.google.android.gms.samples.vision.ocrreader.OcrCaptureActivity"
+            android:label="Check Yo&apos; Shelf" >
         </activity>
         <activity
             android:name="com.google.android.gms.common.api.GoogleApiActivity"

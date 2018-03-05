@@ -284,39 +284,38 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
         mGraphicOverlay.clear();
         ArrayList<Integer> sequence = new ArrayList<Integer>();
         SparseArray<TextBlock> items = detections.getDetectedItems();
-        //ArrayList<String> out_of_order = compare(items);
-        //for (int i = 0; i < out_of_order.size(); i++) {
-        //  Log.d("out of order: ", out_of_order.get(i));
-        //}
 
         int compare_at = 0;
-        ArrayList<Integer> out_of_order = new ArrayList<Integer>();
         ArrayList<TextBlock> callNums = addCallNums(items);
-
-
 
         for (int i = 0; i < callNums.size(); i++) {
 
+            if(i == callNums.size()-1) return;
+
             TextBlock item = callNums.get(compare_at);
-
-            TextBlock item2 = callNums.get(i + 1);
-            OcrGraphic graphic = new OcrGraphic(mGraphicOverlay, item);
-            OcrGraphic graphic1 = new OcrGraphic(mGraphicOverlay, item2);
-
+            TextBlock item2 = callNums.get(i+1);
+            OcrGraphic graphic1 = new OcrGraphic(mGraphicOverlay, item);
+            OcrGraphic graphic2 = new OcrGraphic(mGraphicOverlay, item2);
+            //make graphic white and post to graphic, as it is what we are comparing the rest against
+            //graphic.setColor(Color.WHITE);
+            //mGraphicOverlay.add(graphic);
 
             Log.d("debug:", item.getValue() + "," + item2.getValue());
-            if (psuedo_sort(item, item2) == false) {
+            if (psuedo_sort(item, item2) == false && item != item2) {
                 Log.d("debug", "out of order adding " + item.getValue() + " " + compare_at);
                 sequence.add(compare_at);
-                graphic1.makeRed();
-                mGraphicOverlay.add(graphic1);
+                graphic2.makeRed();
+                mGraphicOverlay.add(graphic2);
             }
             else {
                 Log.d("debug", "not out of order");
-
+                //make that box green if not out of order and add to mgraphic
+                //graphic1.setColor(Color.GREEN);
+                //mGraphicOverlay.add(graphic1);
                 compare_at = i + 1;
             }
         }
+
 
     }
 
