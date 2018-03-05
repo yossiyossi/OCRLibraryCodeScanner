@@ -1768,6 +1768,10 @@
         "source": "C:\\Users\\Yossi\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.0.aar\\42fe356dd1695d7ce84dc329ff25d3e4\\res\\drawable-xxxhdpi-v4\\abc_ic_menu_copy_mtrl_am_alpha.png"
     },
     {
+        "merged": "C:\\Users\\Yossi\\Desktop\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-complete\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_question.png.flat",
+        "source": "C:\\Users\\Yossi\\Desktop\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-complete\\app\\src\\main\\res\\drawable-hdpi\\question.png"
+    },
+    {
         "merged": "C:\\Users\\Yossi\\Desktop\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-complete\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldrtl-xhdpi-v17_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
         "source": "C:\\Users\\Yossi\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.0.aar\\42fe356dd1695d7ce84dc329ff25d3e4\\res\\drawable-ldrtl-xhdpi-v17\\abc_ic_menu_copy_mtrl_am_alpha.png"
     },
@@ -1882,6 +1886,10 @@
     {
         "merged": "C:\\Users\\Yossi\\Desktop\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-complete\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_common_google_signin_btn_icon_light_disabled.9.png.flat",
         "source": "C:\\Users\\Yossi\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-9.4.0.aar\\7bc541724629b8da6a5ebb40d3a5f1be\\res\\drawable-mdpi-v4\\common_google_signin_btn_icon_light_disabled.9.png"
+    },
+    {
+        "merged": "C:\\Users\\Yossi\\Desktop\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-complete\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_team.png.flat",
+        "source": "C:\\Users\\Yossi\\Desktop\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-complete\\app\\src\\main\\res\\drawable-hdpi\\team.png"
     },
     {
         "merged": "C:\\Users\\Yossi\\Desktop\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-complete\\app\\build\\intermediates\\res\\merged\\debug\\drawable_common_plus_signin_btn_text_dark.xml.flat",

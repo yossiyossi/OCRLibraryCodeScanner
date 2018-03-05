@@ -767,7 +767,9 @@ int drawable ic_travel 0x7f070080
 int drawable icon 0x7f070081
 int drawable navigation_empty_icon 0x7f070082
 int drawable notification_template_icon_bg 0x7f070083
-int drawable robot 0x7f070084
+int drawable question 0x7f070084
+int drawable robot 0x7f070085
+int drawable team 0x7f070086
 int id action0 0x7f080000
 int id action_bar 0x7f080001
 int id action_bar_activity_content 0x7f080002

@@ -5,23 +5,31 @@
     build-mode="COLD"
     density="420dpi"
     format="10"
+    ir-eligibility="R_CLASS_CHANGE"
     plugin-version="3.0.1"
-    timestamp="1520287968178"
+    timestamp="1520289300943"
     token="-1025312010898577208"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="1302" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="22" />
     <task
         name="verifier"
-        duration="0" />
+        duration="62" />
+
+    <artifact
+        location="C:\Users\Yossi\Desktop\android-vision-master\visionSamples\ocr-codelab\ocr-reader-complete\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\Yossi\Desktop\android-vision-master\visionSamples\ocr-codelab\ocr-reader-complete\app\build\outputs\apk\debug\app-debug.apk"
+        type="SPLIT_MAIN" />
 
     <build
         build-mode="FULL"
@@ -66,24 +74,15 @@
     </build>
     <build
         build-mode="COLD"
-        timestamp="1520287763621"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="C:\Users\Yossi\Desktop\android-vision-master\visionSamples\ocr-codelab\ocr-reader-complete\app\build\outputs\apk\debug\app-debug.apk"
-            type="SPLIT_MAIN" />
-    </build>
-    <build
-        build-mode="COLD"
-        ir-eligibility="COMPATIBLE"
-        timestamp="1520287843295"
+        ir-eligibility="R_CLASS_CHANGE"
+        timestamp="1520289300943"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="C:\Users\Yossi\Desktop\android-vision-master\visionSamples\ocr-codelab\ocr-reader-complete\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
             type="SPLIT" />
+        <artifact
+            location="C:\Users\Yossi\Desktop\android-vision-master\visionSamples\ocr-codelab\ocr-reader-complete\app\build\outputs\apk\debug\app-debug.apk"
+            type="SPLIT_MAIN" />
     </build>
-    <build
-        build-mode="COLD"
-        timestamp="1520287968178"
-        verifier="COLD_SWAP_REQUESTED" />
 
 </instant-run>

@@ -3267,7 +3267,9 @@ public final class R {
     public static final int icon=0x7f070081;
     public static final int navigation_empty_icon=0x7f070082;
     public static final int notification_template_icon_bg=0x7f070083;
-    public static final int robot=0x7f070084;
+    public static final int question=0x7f070084;
+    public static final int robot=0x7f070085;
+    public static final int team=0x7f070086;
   }
   public static final class id {
     public static final int action0=0x7f080000;
