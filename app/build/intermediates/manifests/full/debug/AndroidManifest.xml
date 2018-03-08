@@ -40,13 +40,26 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.google.android.gms.samples.vision.ocrreader.WelcomeScreen"
+            android:label="Check Yo&apos; Shelf" >
+        </activity>
+        <activity
             android:name="com.google.android.gms.samples.vision.ocrreader.OcrCaptureActivity"
             android:label="Check Yo&apos; Shelf" >
         </activity>
+
+        <meta-data
+            android:name="android.support.VERSION"
+            android:value="26.1.0" />
+
         <activity
             android:name="com.google.android.gms.common.api.GoogleApiActivity"
             android:exported="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <meta-data
+            android:name="android.arch.lifecycle.VERSION"
+            android:value="27.0.0-SNAPSHOT" />
     </application>
 
 </manifest>
