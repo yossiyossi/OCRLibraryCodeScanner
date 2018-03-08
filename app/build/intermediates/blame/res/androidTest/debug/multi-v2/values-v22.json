@@ -1,10 +1,26 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Yossi\\Desktop\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-complete\\app\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v22\\values-v22.xml",
+            "outputFile": "/Users/GrahamFoster/Desktop/CheckYourShelf/CheckYoShelf/OCRLibraryCodeScanner/app/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-v22/values-v22.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Yossi\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.0.aar\\42fe356dd1695d7ce84dc329ff25d3e4\\res\\values-v22\\values-v22.xml",
+                    "source": "/Users/GrahamFoster/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/0fa0e552aa74108fb5a8335c976cc367/res/values-v22/values-v22.xml",
+                    "from": {
+                        "startLines": "2,3,4,9",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,130,217,553",
+                        "endLines": "2,3,8,13",
+                        "endColumns": "74,86,12,12",
+                        "endOffsets": "125,212,548,896"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/Users/GrahamFoster/Desktop/CheckYourShelf/CheckYoShelf/OCRLibraryCodeScanner/C:\\Users\\Yossi\\Desktop\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-complete\\app\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v22\\values-v22.xml",
+            "map": [
+                {
+                    "source": "/Users/GrahamFoster/Desktop/CheckYourShelf/CheckYoShelf/OCRLibraryCodeScanner/C:\\Users\\Yossi\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.0.aar\\42fe356dd1695d7ce84dc329ff25d3e4\\res\\values-v22\\values-v22.xml",
                     "from": {
                         "startLines": "2,3,4,9",
                         "startColumns": "4,4,4,4",

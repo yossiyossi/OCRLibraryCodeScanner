@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Yossi\\Desktop\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-complete\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-land\\values-land.xml",
+            "outputFile": "/Users/GrahamFoster/Desktop/CheckYourShelf/CheckYoShelf/OCRLibraryCodeScanner/C:\\Users\\Yossi\\Desktop\\android-vision-master\\visionSamples\\ocr-codelab\\ocr-reader-complete\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-land\\values-land.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Yossi\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.0.aar\\42fe356dd1695d7ce84dc329ff25d3e4\\res\\values-land\\values-land.xml",
+                    "source": "/Users/GrahamFoster/Desktop/CheckYourShelf/CheckYoShelf/OCRLibraryCodeScanner/C:\\Users\\Yossi\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-24.2.0.aar\\42fe356dd1695d7ce84dc329ff25d3e4\\res\\values-land\\values-land.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Yossi\\.gradle\\caches\\transforms-1\\files-1.1\\design-24.2.0.aar\\7d98d83269add6bc33fea48b9d1efa37\\res\\values-land\\values-land.xml",
+                    "source": "/Users/GrahamFoster/Desktop/CheckYourShelf/CheckYoShelf/OCRLibraryCodeScanner/C:\\Users\\Yossi\\.gradle\\caches\\transforms-1\\files-1.1\\design-24.2.0.aar\\7d98d83269add6bc33fea48b9d1efa37\\res\\values-land\\values-land.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -30,6 +30,40 @@
                         "endLines": "9",
                         "endColumns": "12",
                         "endOffsets": "505"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/Users/GrahamFoster/Desktop/CheckYourShelf/CheckYoShelf/OCRLibraryCodeScanner/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-land/values-land.xml",
+            "map": [
+                {
+                    "source": "/Users/GrahamFoster/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/5630104cba68c21b0fb9c5ee22629470/res/values-land/values-land.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "5",
+                        "endColumns": "12",
+                        "endOffsets": "232"
+                    },
+                    "to": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "328",
+                        "endLines": "9",
+                        "endColumns": "12",
+                        "endOffsets": "505"
+                    }
+                },
+                {
+                    "source": "/Users/GrahamFoster/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/0fa0e552aa74108fb5a8335c976cc367/res/values-land/values-land.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,125,189,260",
+                        "endColumns": "69,63,70,67",
+                        "endOffsets": "120,184,255,323"
                     }
                 }
             ]

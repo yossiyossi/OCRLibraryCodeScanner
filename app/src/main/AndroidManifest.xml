@@ -33,6 +33,12 @@
         </activity>
 
         <activity
+            android:name=".WelcomeScreen"
+            android:label="Check Yo&apos; Shelf">
+
+        </activity>
+
+        <activity
             android:name=".OcrCaptureActivity"
             android:label="Check Yo&apos; Shelf">
 
